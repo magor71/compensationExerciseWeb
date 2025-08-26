@@ -17,11 +17,10 @@ class Controller {
     }
 
     create = (req, res) => {
-        /* Creates a new resources (the model assign an id) and sends it back to the client.
-         * If something goes wrong, send back status code 404. 
-         * Add the moment, no validation on the incoming data is made. This is always 
-         * necessary in a real-world project.
-         */
+        // Creates a new resources (the model assign an id) and sends it back to the client.
+        // If something goes wrong, send back status code 404. 
+        // !no validation on the incoming data!
+         
         const resource = req.body;
         try {
             res.send(model.create(resource));
@@ -31,22 +30,21 @@ class Controller {
     }
 
     update = (req, res) => {
-        /* Updates a resource. If successful, sends back status 200. */
+        // Updates a resource. If successful, sends back status 200 with updated resource to update webpage.
         const id = +req.params.id;
 
         if (!model.get(id)) {
             res.status(404).send(`No resource with id ${id} exists. Update not possible.`);
         } else {
             const resource = req.body;
-            console.log(resource)
             model.update(id, resource);
-            res.sendStatus(200);
+            res.status(200).send(resource)
         }
     }
 
     delete(req, res) {
-        /* Deletes the given resource from the model.Checks the incoming id first
-         * After deleting the resource, sends back status 204. */
+        //  Deletes the given resource from the model.Checks the incoming id first
+        //  After deleting the resource, sends back status 204.
         const id = +req.params.id;
 
         if (!model.get(id)) {

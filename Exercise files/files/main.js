@@ -81,15 +81,12 @@ function add(resource, sibling) {
 
   // Display name
   creator.append(new ElementCreator("h2").text(`Name: ${resource.name}`));
-
   // Display age
   creator.append(new ElementCreator("p").text(`Age: ${resource.age}`));
-
   // Display isActive as yes/no
   creator.append(
     new ElementCreator("p").text(`Active: ${resource.isActive ? "Yes" : "No"}`)
   );
-
   // Display formatted createdAt date
   const formattedDate = new Date(resource.createdAt).toLocaleDateString(
     "de-DE"
@@ -110,7 +107,6 @@ function add(resource, sibling) {
             const response = await fetch(`/api/resources/${resource.id}`, {
               method: "DELETE",
             });
-
             if (response.ok) {
               // Only remove from DOM after the server confirms deletion
               remove(resource);
@@ -124,15 +120,6 @@ function add(resource, sibling) {
           }
         })
     );
-  // OLD Remove button
-  // .append(
-  //   new ElementCreator("button").text("Remove").listener("click", () => {
-  //     /* Task 3: Call the delete endpoint asynchronously using either an XMLHttpRequest
-  //            or the Fetch API. Once the call returns successfully, remove the resource from
-  //            the DOM using the call to remove(...) below. */
-  //     remove(resource); // <- This call removes the resource from the DOM. Call it after (and only if) your API call succeeds!
-  //   })
-  // );
 
   const parent = document.querySelector("main");
 
@@ -228,15 +215,13 @@ function edit(resource) {
                use the code below to remove the form we used for editing and again render 
                the resource in the list.
             */
-          //    OLD call
-          //   add(resource, document.getElementById(resource.idforDOM)); // <- Call this after the resource is updated successfully on the server
           try {
             const response = await fetch(`/api/resources/${resource.id}`, {
               method: "PUT",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(resource),
             });
-
+            
             if (response.ok) {
               const updatedResource = await response.json();
 
@@ -268,7 +253,8 @@ function remove(resource) {
     one that contains an id).
  */
 function create() {
-  //   alert("Not implemeted yet!");
+  // needed to hide container after new person is created
+  const formContainer = new ElementCreator("div").id("create-form-container")
 
   const formCreator = new ElementCreator("form").append(
     new ElementCreator("h3").text("Create New Person")
@@ -302,7 +288,7 @@ function create() {
         .id("resource-date")
         .with("type", "date")
         .with("value", new Date().toISOString().split("T")[0])
-    ); // default today
+    ); // default date today
 
   // Save button
   formCreator
@@ -331,6 +317,9 @@ function create() {
               const createdResource = await response.json();
               // Add the new resource to the DOM
               add(createdResource);
+
+              // removes create container since it was added successfully
+              document.getElementById("create-form-container").remove();
             } else {
               alert("Failed to create resource on the server.");
             }
@@ -340,10 +329,10 @@ function create() {
           }
         })
     )
-    .insertBefore(
-      document.querySelector("main"),
-      document.querySelector("#bottom")
-    );
+
+
+    formContainer.append(formCreator);
+    formContainer.insertBefore(document.querySelector('main'), document.querySelector('#bottom'));
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {
