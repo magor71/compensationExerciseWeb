@@ -23,21 +23,21 @@ class Model {
     static ID = 1;
 
     constructor() {
-        this.resources = new Map();
+        this.persons = new Map();
     }
 
     add(resource) {
         resource.id = Model.ID++;
-        this.resources.set(resource.id, resource);
+        this.persons.set(resource.id, resource);
     }
 
     get(id) {
         this.checkId(id);
-        return this.resources.get(id);
+        return this.persons.get(id);
     }
 
     getAll() {
-        return Array.from(this.resources.values());
+        return Array.from(this.persons.values());
     }
 
     checkId(id) {
@@ -54,7 +54,7 @@ class Model {
     update(id, resource) {
         this.checkId(id);
 
-        const target = this.resources.get(id);
+        const target = this.persons.get(id);
         if (!target) {
             throw new Error(`Resource with ${id} does not exist and cannot be updated.`)
         }
@@ -66,7 +66,7 @@ class Model {
 
     delete = (id) => {
         this.checkId(id);
-        return this.resources.delete(id);
+        return this.persons.delete(id);
     }
 }
 

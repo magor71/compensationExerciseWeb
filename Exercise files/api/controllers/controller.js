@@ -37,8 +37,9 @@ class Controller {
             res.status(404).send(`No resource with id ${id} exists. Update not possible.`);
         } else {
             const resource = req.body;
+            // console.log(resource)
             model.update(id, resource);
-            res.status(200).send(resource)
+            res.status(200).send(model.get(id));
         }
     }
 
