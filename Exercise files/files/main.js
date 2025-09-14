@@ -351,7 +351,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
   fetch("/api/persons")
     .then((response) => response.json())
     .then((persons) => {
-      for (const resource of persons) {
+      for (const resource of persons) { 
         add(Object.assign(new Resource(), resource));
       }
     });
