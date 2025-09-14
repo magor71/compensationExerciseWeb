@@ -107,7 +107,7 @@ function add(resource, sibling) {
         .text("Remove")
         .listener("click", async () => {
           try {
-            const response = await fetch(`/api/resources/${resource.id}`, {
+            const response = await fetch(`/api/persons/${resource.id}`, {
               method: "DELETE",
             });
 
@@ -231,13 +231,14 @@ function edit(resource) {
           //    OLD call
           //   add(resource, document.getElementById(resource.idforDOM)); // <- Call this after the resource is updated successfully on the server
           try {
-            const response = await fetch(`/api/resources/${resource.id}`, {
+            const response = await fetch(`/api/persons/${resource.id}`, {
               method: "PUT",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(resource),
             });
 
             if (response.ok) {
+              console.log(response)
               const updatedResource = await response.json();
 
               // Re-render the resource in the DOM with updated values
@@ -321,7 +322,7 @@ function create() {
           };
 
           try {
-            const response = await fetch(`/api/resources`, {
+            const response = await fetch(`/api/persons`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(newResource),
@@ -347,10 +348,10 @@ function create() {
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {
-  fetch("/api/resources")
+  fetch("/api/persons")
     .then((response) => response.json())
-    .then((resources) => {
-      for (const resource of resources) {
+    .then((persons) => {
+      for (const resource of persons) {
         add(Object.assign(new Resource(), resource));
       }
     });
